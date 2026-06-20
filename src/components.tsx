@@ -235,12 +235,39 @@ export function MediaCard({ item, onOpen, onPlay, onToggleWatchlist, inWatchlist
 }
 
 export function SearchInput({ value, onChange, placeholder, variant = 'panel', onClear }: { value: string; onChange: (next: string) => void; placeholder?: string; variant?: 'panel' | 'topbar'; onClear?: () => void }) {
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const handleClear = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    onChange('');
+    onClear?.();
+    inputRef.current?.focus({ preventScroll: true });
+  };
   return (
     <label className={cn('search-input', variant === 'topbar' && 'search-input-topbar')}>
       <span aria-hidden="true">⌕</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder ?? 'Search titles, creators, tags'} aria-label="Search titles, creators, or tags" />
+      <input
+        ref={inputRef}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder ?? 'Search titles, creators, tags'}
+        aria-label="Search titles, creators, or tags"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        enterKeyHint="search"
+        inputMode="search"
+        type="search"
+      />
       {value && onClear ? (
-        <button type="button" className="search-clear" onClick={onClear} aria-label="Clear search">
+        <button
+          type="button"
+          className="search-clear"
+          aria-label="Clear search"
+          onPointerDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={handleClear}
+        >
           ✕
         </button>
       ) : null}
