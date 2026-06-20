@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Lumen — Movies & TV</title>
+    <meta name="description" content="Lumen — discover and watch movies and TV with a clean, modern interface." />
+    <script>
+      (function () {
+        var blockKeys = function (e) {
+          var key = e.key || '';
+          if (key === 'F12' || key === 'F11') { e.preventDefault(); e.stopPropagation(); return; }
+          var combo = key.toUpperCase();
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && /^(I|J|C|K)$/.test(combo)) { e.preventDefault(); e.stopPropagation(); return; }
+          if ((e.ctrlKey || e.metaKey) && !e.shiftKey && /^(U|S)$/.test(combo)) { e.preventDefault(); e.stopPropagation(); return; }
+        };
+        window.addEventListener('keydown', blockKeys, true);
+        document.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

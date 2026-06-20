@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/components.tsx","./src/main.tsx","./src/types.ts","./src/vite-env.d.ts","./src/data/democatalog.ts","./src/lib/antidebug.ts","./src/lib/catalog.ts","./src/lib/hooks.ts","./src/lib/playback.ts","./src/lib/watchlist.ts"],"version":"5.9.3"}
