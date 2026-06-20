@@ -1315,6 +1315,12 @@ function EmbedPlayer({ item, onClose }: { item: CatalogItem; onClose: () => void
 
         <div className="player-stage">
           <div className="player-video-wrap">
+            {serverStates[activeServer] !== 'ready' ? (
+              <div className="player-video-loading" aria-hidden="true">
+                <div className="player-video-loading-spinner" />
+                <span>Loading {activeSource.label}…</span>
+              </div>
+            ) : null}
             <iframe
               ref={iframeRef}
               key={`${activeServer}-${season}-${episode}`}
@@ -1397,8 +1403,13 @@ function EmbedPlayer({ item, onClose }: { item: CatalogItem; onClose: () => void
           </div>
         </div>
 
-        <div className="download-note">
-          If the player stays blank or shows ads only, pick another server above. Many embed providers also block local-dev origins — videos work more reliably once deployed.
+        <div className="player-info-panel">
+          <strong>Subtitles, audio &amp; quality</strong>
+          <ul>
+            <li>Open the gear / CC icon <em>inside</em> the video frame — every provider controls its own subtitles, audio tracks and video quality.</li>
+            <li>Not all providers expose every option. If you can&apos;t find subtitles, try another server above.</li>
+            <li>Blank player or only ads? Pick a different server — providers go up and down all the time.</li>
+          </ul>
         </div>
       </div>
     </div>
