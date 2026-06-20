@@ -23,9 +23,9 @@ function blockContext(event: Event): void {
 }
 
 function showLockScreen(): void {
-  if (document.getElementById('__lumen_locked__')) return;
+  if (document.getElementById('__fk_locked__')) return;
   const overlay = document.createElement('div');
-  overlay.id = '__lumen_locked__';
+  overlay.id = '__fk_locked__';
   Object.assign(overlay.style, {
     position: 'fixed',
     inset: '0',
@@ -38,9 +38,10 @@ function showLockScreen(): void {
     textAlign: 'center',
     padding: '32px',
   } as CSSStyleDeclaration);
+  const base = (typeof document !== 'undefined' && document.baseURI) ? document.baseURI : '/';
   overlay.innerHTML = `
     <div style="max-width:420px;display:grid;gap:14px;justify-items:center;">
-      <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#e50914,#ff3a44);display:grid;place-items:center;font-weight:800;font-size:1.8rem;box-shadow:0 18px 40px rgba(229,9,20,0.4);">L</div>
+      <img src="${base.replace(/\/$/, '')}/logo.png" alt="FilmyKhazana" style="width:120px;height:auto;filter:drop-shadow(0 14px 32px rgba(0,0,0,0.55));" />
       <h1 style="margin:0;font-size:1.6rem;">Inspection disabled</h1>
       <p style="margin:0;color:#8e94ad;line-height:1.6;">For your protection this page is not available while developer tools are open. Please close them and reload.</p>
     </div>
@@ -49,7 +50,7 @@ function showLockScreen(): void {
 }
 
 function hideLockScreen(): void {
-  document.getElementById('__lumen_locked__')?.remove();
+  document.getElementById('__fk_locked__')?.remove();
 }
 
 let lastDetection = 0;

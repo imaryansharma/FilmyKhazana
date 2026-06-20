@@ -1,5 +1,43 @@
 import React from 'react';
 import type { CatalogItem, QualityOption, ServerOption } from './types';
+import { getTheme, subscribeTheme, toggleTheme, type Theme } from './lib/theme';
+
+export function ThemeToggle({ compact = false }: { compact?: boolean }) {
+  const [theme, setThemeState] = React.useState<Theme>(() => getTheme());
+
+  React.useEffect(() => subscribeTheme(setThemeState), []);
+
+  React.useEffect(() => {
+    const media = window.matchMedia?.('(prefers-color-scheme: light)');
+    if (!media) return;
+    const listener = () => {
+      try {
+        const saved = localStorage.getItem('filmykhazana.theme');
+        if (saved !== 'light' && saved !== 'dark') {
+          setThemeState(media.matches ? 'light' : 'dark');
+        }
+      } catch {
+        // ignore
+      }
+    };
+    media.addEventListener?.('change', listener);
+    return () => media.removeEventListener?.('change', listener);
+  }, []);
+
+  const next = theme === 'dark' ? 'light' : 'dark';
+  return (
+    <button
+      type="button"
+      className={cn('theme-toggle', compact && 'theme-toggle-compact')}
+      onClick={() => toggleTheme()}
+      aria-label={`Switch to ${next} mode`}
+      title={`Switch to ${next} mode`}
+    >
+      <span className="theme-toggle-icon" aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
+      {!compact ? <span className="theme-toggle-label">{theme === 'dark' ? 'Dark' : 'Light'}</span> : null}
+    </button>
+  );
+}
 
 export function cn(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ');
@@ -75,7 +113,7 @@ export function makePosterFallback(title: string, subtitle: string): string {
       <rect width="800" height="1200" fill="url(#g)"/>
       <circle cx="570" cy="220" r="280" fill="url(#r)"/>
       <rect x="50" y="940" width="700" height="150" rx="28" fill="rgba(255,255,255,0.06)"/>
-      <text x="60" y="102" fill="#c7d2fe" font-family="Inter, Arial, sans-serif" font-size="28" letter-spacing="4">LUMEN</text>
+      <text x="60" y="102" fill="#f4c454" font-family="Inter, Arial, sans-serif" font-size="28" letter-spacing="4" font-weight="800">FILMYKHAZANA</text>
       <text x="60" y="860" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="60" font-weight="700">${safeTitle}</text>
       <text x="60" y="910" fill="#9ca3af" font-family="Inter, Arial, sans-serif" font-size="28">${safeSubtitle}</text>
     </svg>`;

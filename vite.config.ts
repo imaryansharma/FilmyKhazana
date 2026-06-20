@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/FilmyKhazana/' : '/',
   plugins: [react()],
   build: {
     rollupOptions: {
@@ -13,4 +14,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

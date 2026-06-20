@@ -213,7 +213,7 @@ export function defaultServerId(item: CatalogItem): StreamKind {
 }
 
 export function serverStorageKey(itemId: string): string {
-  return `lumen.player.${itemId}`;
+  return `filmykhazana.player.${itemId}`;
 }
 
 export interface ResumeState {

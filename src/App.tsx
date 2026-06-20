@@ -15,6 +15,7 @@ import {
   Select,
   ServerSelector,
   TabBar,
+  ThemeToggle,
   cn,
 } from './components';
 import {
@@ -48,6 +49,7 @@ import {
   type ResumeState,
 } from './lib/playback';
 import { useBodyScrollLock, useDebouncedValue, useFocusTrap } from './lib/hooks';
+import { Faqs, PrivacyPolicy, SiteFooter } from './StaticPages';
 import {
   continueAsItems,
   continueProgress,
@@ -99,6 +101,8 @@ export default function App() {
         <Route path="/home/:id" element={<ExploreRoute detail />} />
         <Route path="/explore" element={<Navigate to="/home" replace />} />
         <Route path="/explore/:id" element={<RedirectExploreToHome />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/faqs" element={<Faqs />} />
       </Routes>
     </CatalogProvider>
   );
@@ -310,12 +314,15 @@ function ExploreRoute({ detail = false }: { detail?: boolean }) {
       </a>
       <header className="topbar">
         <div className="topbar-left">
-          <div className="brand-wrap" onClick={() => navigate('/home')} role="button" tabIndex={0} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/home')}>
-            <div className="brand-mark">L</div>
-            <div className="brand-text">
-              <strong>Lumen</strong>
-              <span>Movies & TV</span>
-            </div>
+          <div className="brand-wrap" onClick={() => navigate('/home')} role="button" tabIndex={0} aria-label="FilmyKhazana home" onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/home')}>
+            <img
+              src={`${import.meta.env.BASE_URL}logo.png`}
+              alt="FilmyKhazana"
+              className="brand-logo"
+              width={160}
+              height={160}
+              draggable={false}
+            />
           </div>
         </div>
 
@@ -338,6 +345,7 @@ function ExploreRoute({ detail = false }: { detail?: boolean }) {
           >
             {searchOpen ? '✕' : '⌕'}
           </button>
+          <ThemeToggle />
           {watchlist.length > 0 ? (
             <Badge tone="accent" aria-label={`${watchlist.length} saved titles`}>{watchlist.length} saved</Badge>
           ) : null}
@@ -486,9 +494,7 @@ function ExploreRoute({ detail = false }: { detail?: boolean }) {
           </>
         ) : null}
 
-        <footer className="app-footer">
-          <span>Lumen · personal catalogue powered by TMDB</span>
-        </footer>
+        <SiteFooter />
       </main>
 
       {detail && activeItem ? <DetailOverlay item={activeItem} onClose={() => navigate('/home' + location.search)} onPlay={() => openPlayer(activeItem.id)} /> : null}

@@ -7,8 +7,42 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>Lumen — Movies & TV</title>
-    <meta name="description" content="Lumen — discover and watch movies and TV with a clean, modern interface." />
+    <title>FilmyKhazana — Movies & TV</title>
+    <meta name="description" content="FilmyKhazana — discover and watch movies and TV with a clean, modern interface." />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="./favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <meta property="og:title" content="FilmyKhazana — Movies & TV" />
+    <meta property="og:description" content="Discover and watch movies and TV with a clean, modern interface." />
+    <meta property="og:image" content="./logo.png" />
+    <meta property="og:type" content="website" />
+    <script>
+      // Apply theme before paint to avoid flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('filmykhazana.theme');
+          var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+    <script>
+      // spa-github-pages decoder: restore the URL that 404.html encoded into ?/path
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (part) { return part.replace(/~and~/g, '&'); })
+            .join('?');
+          window.history.replaceState(null, '', l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
     <script>
       (function () {
         var blockKeys = function (e) {
@@ -22,9 +56,9 @@
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-B59ncmqA.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/dash-BjLwvkKI.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-zpbVOiuU.css">
+    <script type="module" crossorigin src="/FilmyKhazana/assets/index-u1RXv3Vg.js"></script>
+    <link rel="modulepreload" crossorigin href="/FilmyKhazana/assets/dash-BjLwvkKI.js">
+    <link rel="stylesheet" crossorigin href="/FilmyKhazana/assets/index-DRXVd1jp.css">
   </head>
   <body>
     <div id="root"></div>

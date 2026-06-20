@@ -1,7 +1,7 @@
 import type { CatalogItem } from '../types';
 
-const WATCHLIST_KEY = 'lumen.watchlist.v1';
-const CONTINUE_KEY = 'lumen.continue.v1';
+const WATCHLIST_KEY = 'filmykhazana.watchlist.v1';
+const CONTINUE_KEY = 'filmykhazana.continue.v1';
 const MAX_CONTINUE = 24;
 
 export interface WatchlistEntry {
