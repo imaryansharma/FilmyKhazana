@@ -7,8 +7,8 @@ const TMDB_BACKDROP = 'https://image.tmdb.org/t/p/original';
 const env = (import.meta as any).env ?? {};
 
 const DEFAULT_KEY = 'cc62b52e2d5f4ea112a698f20c090b13';
-const TMDB_KEY = (env.VITE_TMDB_API_KEY as string | undefined) ?? DEFAULT_KEY;
-const TMDB_TOKEN = env.VITE_TMDB_TOKEN as string | undefined;
+const TMDB_KEY = (env.VITE_TMDB_API_KEY as string | undefined) || DEFAULT_KEY;
+const TMDB_TOKEN = (env.VITE_TMDB_TOKEN as string | undefined) || undefined;
 const TMDB_PAGES = Math.max(1, Math.min(5, Number(env.VITE_TMDB_PAGES ?? 3)));
 
 export function formatRuntime(seconds: number): string {

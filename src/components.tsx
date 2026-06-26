@@ -343,6 +343,82 @@ export function ServerSelector({
   );
 }
 
+export function ScanningOverlay({
+  title,
+  servers,
+}: {
+  title: string;
+  servers: Array<{ id: string; label: string }>;
+}) {
+  const total = servers.length;
+  const [analyzed, setAnalyzed] = React.useState(0);
+
+  React.useEffect(() => {
+    setAnalyzed(0);
+  }, [title, total]);
+
+  React.useEffect(() => {
+    if (analyzed >= total) return;
+    const delay = 220 + Math.floor(Math.random() * 180);
+    const timer = window.setTimeout(() => setAnalyzed((c) => Math.min(total, c + 1)), delay);
+    return () => window.clearTimeout(timer);
+  }, [analyzed, total]);
+
+  const failedSet = React.useMemo(() => {
+    const seed = Array.from(title).reduce((acc, ch) => acc + ch.charCodeAt(0), 7);
+    const set = new Set<number>();
+    for (let i = 0; i < total; i++) {
+      if (((seed * 9301 + i * 49297) % 233280) % 5 === 0) set.add(i);
+    }
+    return set;
+  }, [title, total]);
+
+  const percent = total === 0 ? 0 : Math.min(100, (analyzed / total) * 100);
+  const remaining = Math.max(0, total - analyzed);
+
+  return (
+    <div className="scan-overlay" role="status" aria-live="polite">
+      <div className="scan-overlay-inner">
+        <h3 className="scan-title">{title}</h3>
+        <p className="scan-sub">Scanning high-speed servers…</p>
+        <div className="scan-progress-track" aria-hidden="true">
+          <div className="scan-progress-fill" style={{ width: `${percent}%` }} />
+        </div>
+        <div className="scan-progress-meta">
+          <span className="scan-meta-analyzed">{analyzed} ANALYZED</span>
+          <span className="scan-meta-remaining">{remaining} REMAINING</span>
+        </div>
+        <div className="scan-tiles">
+          {servers.map((srv, i) => {
+            const isDone = i < analyzed;
+            const isActive = i === analyzed && analyzed < total;
+            const failed = failedSet.has(i);
+            const state = isDone ? (failed ? 'failed' : 'ok') : isActive ? 'loading' : 'idle';
+            return (
+              <div key={srv.id} className={cn('scan-tile', `scan-tile-${state}`)}>
+                <span className="scan-tile-icon" aria-hidden="true">
+                  {state === 'ok' ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12l5 5 9-11" />
+                    </svg>
+                  ) : state === 'failed' ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                  ) : state === 'loading' ? (
+                    <span className="scan-tile-spinner" />
+                  ) : null}
+                </span>
+                <span className="scan-tile-label">{srv.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function QualitySelector({ value, options, onChange }: { value: string; options: QualityOption[]; onChange: (value: string) => void }) {
   if (options.length === 0) return null;
   return (
