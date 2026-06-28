@@ -726,11 +726,16 @@ input[type='range'] {
   flex-wrap: nowrap;
   gap: 8px;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
   padding: 4px 2px;
   margin: 0 -2px;
   flex: 1;
   min-width: 0;
+  width: 100%;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .tab-bar::-webkit-scrollbar { height: 4px; }
@@ -750,6 +755,7 @@ input[type='range'] {
   white-space: nowrap;
   font-size: 0.9rem;
   flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .tab-pill:hover,
@@ -1113,6 +1119,9 @@ input[type='range'] {
   padding: 4px 2px 14px;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .shelf-row::-webkit-scrollbar { height: 6px; }
